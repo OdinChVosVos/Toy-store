@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rlvbvwgj
+#    //mouse.db.elephantsql.com
+    username: rlvbvwgj
+    password: 2fn_aiDT0BEDUwIigB2HUlxFGBOxf-ww

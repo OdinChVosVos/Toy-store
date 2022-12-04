@@ -1,0 +1,41 @@
+body{
+    background:#e2e2e2;
+}
+h2{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background: #8CD94C;
+}
+.container-md{
+    background: #fff;
+    margin: 1em auto;
+    padding: 2em;
+}
+.container-md>table{
+    width: 40%;
+}
+.users>button{
+     text-align: center;
+     background: #fff;
+     margin: 2em auto;
+     padding: 1em;
+}
+.userController{
+    background:#8DBED6;
+    padding: 2em;
+    text-align: center;
+    margin: 2em auto;
+    margin-left: 20em;
+    margin-right: 20em;
+    border: 0;
+    border-radius: 25em 25em;
+}
+table {
+    text-align: center;
+    margin: 0 auto;
+    border-collapse: collapse;
+    padding: 3em;
+}
+table th, table td {
+    padding: 5px;
+}

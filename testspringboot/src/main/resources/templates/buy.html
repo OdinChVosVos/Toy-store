@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="Yandex">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Page</title>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/mainStyle.css}">
+    <link rel="stylesheet" th:href="@{/lib/lightbox/css/lightbox.css}">
+    <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/lib/lightbox/js/lightbox.js}"></script>
+    <script th:src="@{/lib/jquery-3.6.1.min.js}"></script>
+    <script th:src="@{/js/adminJs.js}"></script>
+    <script th:src="@{/lib/jquery.maskedinput.min.js}"></script>
+</head>
+<body>
+    <div class = "container-md">
+        <h2>ОПЛАТА ЗАКАЗА</h2>
+        <br>
+        <h3 th:text = "@{'Клиент: '+${user.firstname}+' '+${user.lastname}}"></h3>
+        <h3 id = "countdown"></h3>
+    </div>
+
+    <div class= "container-md">
+        <table class="table table-bordered" border="1">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ТОВАР</th>
+                <th scope="col">КОЛИЧЕСТВО</th>
+                <th scope="col">ФОТО</th>
+                <th scope="col">СТОИМОСТЬ ЕД.</th>
+                <th scope="col">ИТОГО</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each= "good, goodStat: ${goods}">
+                <th scope = "row" th:utext = "${goodStat.count}">Empty</th>
+                <td th:utext = "${good.tovar.name}">Empty</td>
+                <td th:utext = "${good.bookedQuantity}">Empty</td>
+                <td> <img th:src= "@{${good.tovar.photo}==null? null:'/api/tovar/get/img/'+${good.tovar.id}}"
+                          height = "100px" data-lightbox="tovar">
+                </td>
+                <td th:utext = "${good.tovar.cost}">Empty</td>
+                <td th:utext = "@{${good.bookedQuantity} * ${good.tovar.cost}} + ' руб.'">Empty</td>
+            </tr>
+            <tr>
+                <th scope = "row" colspan="5"><b>ИТОГО:</b></th>
+                <td th:utext = "${price}+' руб.'">Empty</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container-md">
+        <form th:action="@{'/check/'+${tgId}}"
+              th:object="${card}" method="GET">
+            <p><b>Номер карты</b><br>
+                <input type="text" id="card" placeholder="Номер карты" th:field="*{bankCard}">
+            </p>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class = "col-md-6"><b>Действительна до</b><br>
+                        <input type="text" id="mY" placeholder="MM/YY" th:field="*{monthYear}">
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p><b>CVV</b><br>
+                        <input type="text" id="cvv" placeholder="CVV/CVV2" th:field="*{cvv}">
+                    </p>
+                </div>
+            </div>
+            <br>
+            <p><b>Владелец</b><br>
+                <input type="text" placeholder="IVAN IVANOV" th:field="*{owner}">
+            </p>
+            <br>
+            <input type="submit" value="Pay" />
+        </form>
+    </div>
+
+    <script>
+        $(function(){
+          $("#card").mask("9999 9999 9999 9999");
+          $("#mY").mask("99/99");
+          $("#cvv").mask("999");
+        });
+    </script>
+
+
+</body>
+</html>

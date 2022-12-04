@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="Yandex">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Control Page</title>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/mainStyle.css}">
+    <link rel="stylesheet" th:href="@{/lib/lightbox/css/lightbox.css}">
+    <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/lib/lightbox/js/lightbox.js}"></script>
+    <script th:src="@{/lib/jquery-3.6.1.min.js}"></script>
+    <script th:src="@{/js/adminJs.js}"></script>
+</head>
+<body>
+    <div class = "container-md">
+        <center>
+            <h1>ADMIN CONTROL PAGE</h1>
+        </center>
+    </div>
+
+    <div class = "users">
+        <h2 class ="container-fluid">USER CONTROLLER</h2>
+        <button id="see" onclick="document.getElementById('usr').style.display='block'; document.getElementById('see').style.display='none'; document.getElementById('hide').style.display='block';" style="display:block;">Add User</button>
+        <button id="hide" onclick=" document.getElementById('usr').style.display='none'; document.getElementById('hide').style.display='none'; document.getElementById('see').style.display='block';" style="display:none;">Скрыть</button>
+
+        <table border="1">
+            <tr>
+                <th>tgId</th>
+                <th>firstName</th>
+            </tr>
+            <tr th:each= "user: ${users}">
+                <td th:utext = "${user.id_telegram}">Empty</td>
+                <td th:utext = "${user.firstname}">Empty</td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div class = "userController" id = "usr" style="display:none">
+        <form th:action="@{/addUser}"
+              th:object="${user}" method="POST">
+            <p><b>Имя:</b><br>
+                <input type="text" size="40" th:field="*{firstname}">
+            </p>
+            <br/>
+            <p><b>Фамилия:</b><br>
+                <input type="text" size="40" th:field="*{lastname}">
+            </p>
+            <br/>
+            <p><b>Логин:</b><br>
+                <input type="text" size="40" th:field="*{name}">
+            </p>
+            <br/>
+            <p><b>Телефон:</b><br>
+                <input type="text" size="40" th:field="*{phone}">
+            </p>
+            <br/>
+            <p><b>Почта:</b><br>
+                <input type="text" size="40" th:field="*{mail}">
+            </p>
+            <br/>
+            <p><b>Соглашение:</b><br>
+                <input type="checkbox" th:field="*{agreement}">
+            </p>
+            <br/>
+            <p><b>Телеграм id:</b><br>
+                <input type="text" size="40" th:field="*{id_telegram}">
+            </p>
+            <br/>
+            <input type="submit" value="Create" />
+        </form>
+    </div>
+
+    <div class = "tovar">
+        <h2 class ="container-fluid">TOVAR CONTROLLER</h2>
+        <table class="table table-dark" border="1">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">id</th>
+                    <th scope="col">name</th>
+                    <th scope="col">cost</th>
+                    <th scope="col">category</th>
+                    <th scope="col">quantity</th>
+                    <th scope="col">description</th>
+                    <th scope="col">photo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each= "tovar, tovarStat: ${tovars}">
+                    <th scope = "row" th:utext = "${tovarStat.count}">Empty</th>
+                    <td th:utext = "${tovar.id}">Empty</td>
+                    <td th:utext = "${tovar.name}">Empty</td>
+                    <td th:utext = "${tovar.cost}">Empty</td>
+                    <td th:utext = "${tovar.category.name}">Empty</td>
+                    <td th:utext = "${tovar.quantity_in_stock}">Empty</td>
+                    <td th:utext = "${tovar.description}">Empty</td>
+                    <td> <img th:src= "@{${tovar.photo}==null? null:'/api/tovar/get/img/'+${tovar.id}}"
+                              height = "100px" data-lightbox="tovar">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
