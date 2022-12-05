@@ -1,6 +1,7 @@
 package ru.ds.education.testspringboot.api.job;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import ru.ds.education.testspringboot.core.service.TovarService;
 
 public class BookingJob extends Thread
@@ -10,17 +11,21 @@ public class BookingJob extends Thread
     @Autowired
     private final TovarService tovarService;
 
-    public BookingJob(Long idUser, TovarService tovarService){
+    private Long timeExpire;
+
+    public BookingJob(Long idUser, TovarService tovarService, Long timeExpire){
         this.idUser = idUser;
         this.tovarService = tovarService;
+        this.timeExpire = timeExpire;
     }
 
 
     @Override
     public void run()
     {
+
         try{
-            sleep(5 * 60 * 1000);
+            sleep(timeExpire * 1000);
         }catch(InterruptedException e){}
 
         try {

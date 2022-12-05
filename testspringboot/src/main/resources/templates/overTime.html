@@ -24,6 +24,11 @@
                             <input type = "submit" value = "Заказать"/>
                 </td></tr></table>
             </form>
+            <form th:action="'/buy/'+${tgId}" th:method="GET" >
+                <table><tr><td>
+                    <input type = "submit" value = "Закрыть"/>
+                </td></tr></table>
+            </form>
         </center>
     </div>
 

@@ -1,6 +1,7 @@
 package ru.ds.education.testspringboot.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -63,20 +64,18 @@ public class WebController {
 
     @Transactional
     @RequestMapping("/buy/{tgId}")
-    public String buy(Model model, @PathVariable Long tgId) throws InterruptedException {
-        model.addAttribute("goods", cartsService.buy(tgId));
-//        model.addAttribute("goods", cartsService.getAll(tgId));
+    public String buy(Model model, @PathVariable Long tgId, @Value("${time.expire}") Long timeExpire) throws InterruptedException {
+        model.addAttribute("goods", cartsService.buy(tgId, timeExpire));
         model.addAttribute("user", usersService.getByTgId(tgId));
         model.addAttribute("price", cartsService.countPrice(tgId));
         model.addAttribute("card", new Card());
         model.addAttribute("tgId", tgId);
+        model.addAttribute("timeExpire", timeExpire);
         return "buy";
     }
 
     @RequestMapping(value = { "/check/{tgId}" }, method = RequestMethod.GET)
-    public String check(@ModelAttribute("card") Card card, @PathVariable Long tgId) {
-        if (bookedService.getByUser(tgId).isEmpty())
-            return "redirect:/overTime/" + tgId;
+    public String check(@ModelAttribute("card") Card card, @PathVariable Long tgId) throws InterruptedException {
         if (CardAuth.check(card)){
             System.out.println(true);
 //            tovarService.putGoods();
@@ -85,6 +84,7 @@ public class WebController {
             return "redirect:/";
         }
         System.out.println(false);
+        tovarService.deBook(usersService.getByTgId(tgId).getId());
         return "redirect:/buy/"+tgId;
     }
 

@@ -1,6 +1,7 @@
 package ru.ds.education.testspringboot.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.ds.education.testspringboot.api.exceptions.HeIsAlreadyThereException;
 import ru.ds.education.testspringboot.api.job.BookingJob;
@@ -88,18 +89,10 @@ public class CartsService {
     }
 
 
-    public List<BookedDto> buy(Long tgId) throws InterruptedException {
+    public List<BookedDto> buy(Long tgId, Long timeExpire) throws InterruptedException {
         Long idUser = usersRepository.getByTgID(tgId).getId();
 
-//        if (!bookedRepository.getByUser(idUser).isEmpty()){
-//            tovarRepository.putback(
-//                    elem.getTovar().getQuantity_in_stock()-elem.getQuantity(),
-//                    elem.getTovar().getId()
-//            );
-//            bookedRepository.clearUser(iduser);
-//        }
-
-        mSecondThread = new BookingJob(idUser, tovarService);
+        mSecondThread = new BookingJob(idUser, tovarService, timeExpire);
         mSecondThread.start();
 
         List<TrashDto> cart = getAll(tgId);
