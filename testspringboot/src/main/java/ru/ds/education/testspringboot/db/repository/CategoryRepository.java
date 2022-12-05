@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.ds.education.testspringboot.db.entity.Category;
-import ru.ds.education.testspringboot.db.entity.Users;
+
 
 import javax.transaction.Transactional;
 

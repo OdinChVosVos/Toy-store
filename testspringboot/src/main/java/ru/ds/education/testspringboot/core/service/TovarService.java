@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.ds.education.testspringboot.api.job.ImageUtils;
 import ru.ds.education.testspringboot.api.job.NullProperties;
 import ru.ds.education.testspringboot.core.mapper.BookedMapper;
-import ru.ds.education.testspringboot.core.mapper.CategoryMapper;
 import ru.ds.education.testspringboot.core.model.BookedDto;
 import ru.ds.education.testspringboot.core.model.TovarDto;
 import ru.ds.education.testspringboot.db.entity.Tovar;
@@ -35,9 +34,6 @@ public class TovarService {
 
     @Autowired
     private TovarMapper tovarMapper;
-
-    @Autowired
-    private CategoryMapper categoryMapper;
 
     @Autowired
     private RemindService remindService;

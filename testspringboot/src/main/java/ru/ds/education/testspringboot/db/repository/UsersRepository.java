@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import ru.ds.education.testspringboot.db.entity.Users;
 
 import javax.transaction.Transactional;
-import java.math.BigInteger;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Long> {

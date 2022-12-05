@@ -4,9 +4,8 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import org.springframework.stereotype.Component;
 import ru.ds.education.testspringboot.core.model.BookedDto;
-import ru.ds.education.testspringboot.core.model.CartsDto;
 import ru.ds.education.testspringboot.db.entity.Booked;
-import ru.ds.education.testspringboot.db.entity.Carts;
+
 
 @Component
 public class BookedMapper extends ConfigurableMapper {

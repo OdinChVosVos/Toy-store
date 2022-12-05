@@ -3,12 +3,10 @@ package ru.ds.education.testspringboot.api.controller;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.ds.education.testspringboot.core.mapper.TovarMapper;
-import ru.ds.education.testspringboot.core.model.CartsDto;
-import ru.ds.education.testspringboot.core.model.TovarDto;
+
 import ru.ds.education.testspringboot.core.model.TrashDto;
 import ru.ds.education.testspringboot.core.service.CartsService;
-import ru.ds.education.testspringboot.db.entity.Tovar;
+
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -20,9 +18,6 @@ public class CartsController {
 
     @Autowired
     private CartsService cartsService;
-
-    @Autowired
-    private WebController webController;
 
     @Transactional
     @ApiOperation(

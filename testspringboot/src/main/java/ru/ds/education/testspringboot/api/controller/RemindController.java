@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.ds.education.testspringboot.core.model.RemindDto;
 import ru.ds.education.testspringboot.core.model.TovarDto;
-import ru.ds.education.testspringboot.core.model.TrashDto;
 import ru.ds.education.testspringboot.core.service.RemindService;
 
 import javax.transaction.Transactional;

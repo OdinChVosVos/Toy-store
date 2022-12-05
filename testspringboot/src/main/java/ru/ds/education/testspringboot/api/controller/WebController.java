@@ -7,15 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import ru.ds.education.testspringboot.api.job.CardAuth;
-import ru.ds.education.testspringboot.core.mapper.UsersMapper;
 import ru.ds.education.testspringboot.core.model.Card;
 import ru.ds.education.testspringboot.core.model.UsersDto;
-import ru.ds.education.testspringboot.core.service.BookedService;
+
 import ru.ds.education.testspringboot.core.service.CartsService;
 import ru.ds.education.testspringboot.core.service.TovarService;
 import ru.ds.education.testspringboot.core.service.UsersService;
-import ru.ds.education.testspringboot.db.entity.Users;
-import ru.ds.education.testspringboot.db.repository.BookedRepository;
+
 
 import javax.transaction.Transactional;
 
@@ -30,12 +28,6 @@ public class WebController {
 
     @Autowired
     private CartsService cartsService;
-
-    @Autowired
-    private BookedService bookedService;
-
-    @Autowired
-    private UsersMapper usersMapper;
 
     @GetMapping("/")
     public String index(){

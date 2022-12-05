@@ -3,17 +3,15 @@ package ru.ds.education.testspringboot.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ds.education.testspringboot.core.mapper.RemindMapper;
-import ru.ds.education.testspringboot.core.mapper.TovarMapper;
 import ru.ds.education.testspringboot.core.model.RemindDto;
-import ru.ds.education.testspringboot.core.model.TovarDto;
+
 import ru.ds.education.testspringboot.db.entity.Remind;
 import ru.ds.education.testspringboot.db.entity.Tovar;
-import ru.ds.education.testspringboot.db.entity.Trash;
+
 import ru.ds.education.testspringboot.db.repository.RemindRepository;
 import ru.ds.education.testspringboot.db.repository.TovarRepository;
 import ru.ds.education.testspringboot.db.repository.UsersRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,9 +28,6 @@ public class RemindService {
 
     @Autowired
     private RemindMapper remindMapper;
-
-    @Autowired
-    private TovarMapper tovarMapper;
 
     public void addToRemind(Long tgId, Long idTovar, int quantity){
         double storage = tovarRepository.getById(idTovar).getQuantity_in_stock();

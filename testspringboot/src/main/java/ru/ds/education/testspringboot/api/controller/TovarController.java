@@ -3,21 +3,19 @@ package ru.ds.education.testspringboot.api.controller;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.ds.education.testspringboot.api.job.ParseTask;
 import ru.ds.education.testspringboot.core.model.TovarDto;
-import ru.ds.education.testspringboot.core.model.UsersDto;
+
 import ru.ds.education.testspringboot.core.service.TovarService;
 
 import javax.transaction.Transactional;
-import java.io.File;
+
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
+
 
 
 @RestController

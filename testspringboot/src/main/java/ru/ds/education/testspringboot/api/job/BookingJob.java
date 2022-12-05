@@ -1,7 +1,6 @@
 package ru.ds.education.testspringboot.api.job;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import ru.ds.education.testspringboot.core.service.TovarService;
 
 public class BookingJob extends Thread

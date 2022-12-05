@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.ds.education.testspringboot.core.model.BookedDto;
+
 import ru.ds.education.testspringboot.db.entity.Booked;
-import ru.ds.education.testspringboot.db.entity.Tovar;
+
 
 import javax.transaction.Transactional;
 import java.util.List;
