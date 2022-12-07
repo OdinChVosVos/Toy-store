@@ -88,7 +88,7 @@
     </div>
 
 
-    <div class = "pop_up" id = "pop_up">
+    <div class = "pop_up" th:id = "${pop_up_exp}">
         <div class = "pop_up_container">
             <div class = "pop_up_body">
                 <h1 class ="container-fluid">ВРЕМЯ ОЖИДАНИЯ ИСТЕКЛО</h1>
@@ -96,6 +96,20 @@
                 <form th:action="'/buy/'+${tgId}" th:method="GET" >
                     <table><tr><td>
                         <input type = "submit" value = "Заказать"/>
+                    </td></tr></table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:class = "'pop_up '+${status}" th:id = "${pop_up_fail}">
+        <div class = "pop_up_container">
+            <div class = "pop_up_body">
+                <h1 class ="container-fluid">ДАННЫЕ ВВЕДЕНЫ НЕВЕРНО</h1>
+                <h3 class ="container-fluid">Пожалуйста, повторите ввод данных</h3>
+                <form th:action="'/buy/'+${tgId}" th:method="GET" >
+                    <table><tr><td>
+                        <input type = "submit" value = "Ввести заново"/>
                     </td></tr></table>
                 </form>
             </div>

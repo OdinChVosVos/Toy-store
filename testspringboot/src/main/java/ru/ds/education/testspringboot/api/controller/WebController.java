@@ -63,21 +63,33 @@ public class WebController {
         model.addAttribute("card", new Card());
         model.addAttribute("tgId", tgId);
         model.addAttribute("timeExpire", timeExpire);
+        model.addAttribute("status", "notexpired");
+        model.addAttribute("pop_up_exp", "pop_up");
+        model.addAttribute("pop_up_fail", "not_pop_up");
         return "buy";
     }
 
     @RequestMapping(value = { "/check/{tgId}" }, method = RequestMethod.GET)
-    public String check(@ModelAttribute("card") Card card, @PathVariable Long tgId) throws InterruptedException {
+    public String check(Model model, @ModelAttribute("card") Card card, @PathVariable Long tgId) throws InterruptedException {
+        if (cartsService.getmSecondThread() != null)
+            cartsService.getmSecondThread().stop();
         if (CardAuth.check(card)){
             System.out.println(true);
-//            tovarService.putGoods();
-//            cartsService.clearCart(tgId);
-
+            cartsService.clearCart(tgId);
+            tovarService.deBook(usersService.getByTgId(tgId).getId());
             return "redirect:/";
         }
         System.out.println(false);
+
+        model.addAttribute("status", "expired");
+        model.addAttribute("tgId", tgId);
+        model.addAttribute("user", usersService.getByTgId(tgId));
+        model.addAttribute("timeExpire", 0);
+        model.addAttribute("pop_up_exp", "not_pop_up");
+        model.addAttribute("pop_up_fail", "pop_up");
+
         tovarService.deBook(usersService.getByTgId(tgId).getId());
-        return "redirect:/buy/"+tgId;
+        return "buy";
     }
 
 

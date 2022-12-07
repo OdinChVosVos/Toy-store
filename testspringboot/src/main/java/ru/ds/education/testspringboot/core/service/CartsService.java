@@ -47,7 +47,7 @@ public class CartsService {
     @Autowired
     private TrashMapper trashMapper;
 
-    static BookingJob mSecondThread;
+    private static BookingJob mSecondThread;
 
     public List<TrashDto> getAll(Long tgId){
         Long idUser = usersRepository.getByTgID(tgId).getId();
@@ -79,7 +79,7 @@ public class CartsService {
     public void clearCart(Long tgId){
         Long cartId = cartsRepository.getLastId(usersRepository.getByTgID(tgId).getId());
         trashRepository.deleteByCart(cartId);
-        cartsRepository.deleteById(cartId);
+        cartsRepository.removeById(cartId);
     }
 
     public void removeFromCart(Long tgId, Long tovarId){
@@ -106,6 +106,10 @@ public class CartsService {
         }
 
         return bookedMapper.mapAsList(bookedRepository.getByUser(idUser), BookedDto.class);
+    }
+
+    public BookingJob getmSecondThread(){
+        return mSecondThread;
     }
 
 
