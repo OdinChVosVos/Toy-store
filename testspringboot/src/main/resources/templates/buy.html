@@ -116,6 +116,15 @@
         </div>
     </div>
 
+    <div th:class = "'pop_up '+${statusexc}" th:id = "${pop_up_exc}">
+        <div class = "pop_up_container">
+            <div class = "pop_up_body">
+                <h1 class ="container-fluid">ПОКУПКА ПРОИЗВЕДЕНА УСПЕШНО</h1>
+                <h3 class ="container-fluid">Ждем вас снова</h3>
+            </div>
+        </div>
+    </div>
+
 
     <script th:src="@{/js/adminJs.js}"></script>
 

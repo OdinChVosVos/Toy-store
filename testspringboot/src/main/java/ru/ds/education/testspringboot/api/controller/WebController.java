@@ -48,11 +48,6 @@ public class WebController {
         return "redirect:/admin";
     }
 
-    @RequestMapping("/overTime/{tgId}")
-    public String overTime(Model model, @PathVariable Long tgId) {
-        model.addAttribute("tgId", tgId);
-        return "overTime";
-    }
 
     @Transactional
     @RequestMapping("/buy/{tgId}")
@@ -64,7 +59,9 @@ public class WebController {
         model.addAttribute("tgId", tgId);
         model.addAttribute("timeExpire", timeExpire);
         model.addAttribute("status", "notexpired");
+        model.addAttribute("statusexc", "notexpired");
         model.addAttribute("pop_up_exp", "pop_up");
+        model.addAttribute("pop_up_exc", "not_pop_up");
         model.addAttribute("pop_up_fail", "not_pop_up");
         return "buy";
     }
@@ -77,15 +74,27 @@ public class WebController {
             System.out.println(true);
             cartsService.clearCart(tgId);
             tovarService.deBook(usersService.getByTgId(tgId).getId());
-            return "redirect:/";
+
+            model.addAttribute("status", "notexpired");
+            model.addAttribute("statusexc", "expired");
+            model.addAttribute("tgId", tgId);
+            model.addAttribute("user", usersService.getByTgId(tgId));
+            model.addAttribute("timeExpire", 0);
+            model.addAttribute("pop_up_exp", "not_pop_up");
+            model.addAttribute("pop_up_fail", "not_pop_up");
+            model.addAttribute("pop_up_exc", "pop_up");
+
+            return "buy";
         }
         System.out.println(false);
 
         model.addAttribute("status", "expired");
+        model.addAttribute("statusexc", "notexpired");
         model.addAttribute("tgId", tgId);
         model.addAttribute("user", usersService.getByTgId(tgId));
         model.addAttribute("timeExpire", 0);
         model.addAttribute("pop_up_exp", "not_pop_up");
+        model.addAttribute("pop_up_exc", "not_pop_up");
         model.addAttribute("pop_up_fail", "pop_up");
 
         tovarService.deBook(usersService.getByTgId(tgId).getId());
