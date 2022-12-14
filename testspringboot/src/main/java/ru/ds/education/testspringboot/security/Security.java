@@ -38,6 +38,7 @@ public class Security{
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/buy").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/users").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/users/update").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/users/get/**").hasAnyRole("ADMIN", "USER")
