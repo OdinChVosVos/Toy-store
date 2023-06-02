@@ -22,8 +22,11 @@ public class Carts {
     @JoinColumn(name = "id_user")
     private Users user;
 
+    private String description;
 
-    public Carts(Users user) {
+
+    public Carts(Users user, String description) {
         this.user = user;
+        this.description = description;
     }
 }

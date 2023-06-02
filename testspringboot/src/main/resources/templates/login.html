@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="Yandex">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In Page</title>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <link rel="stylesheet" th:href="@{/lib/lightbox/css/lightbox.css}">
+    <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/lib/lightbox/js/lightbox.js}"></script>
+    <script th:src="@{/lib/jquery-3.6.1.min.js}"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/imgs/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/imgs/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/imgs/icons/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+    <div class="main">
+        <input type="checkbox" id="chk" aria-hidden="true">
+
+        <div class="signup">
+            <form th:action="@{/addUser}"
+                  th:object="${user}" method="POST">
+                <label for="chk" aria-hidden="true">Sign up</label>
+                <input type="text" placeholder="Telegram id" th:field="*{id_telegram}" required="">
+                <input type="text" placeholder="User name" th:field="*{name}" required="">
+                <input type="text" placeholder="Email" th:field="*{mail}" required="">
+                <input type="text" placeholder="Tel. number" th:field="*{phone}" required="">
+                <input type="text" placeholder="Password" th:field="*{password}" required="">
+                <input type="text" placeholder="Firstname" th:field="*{firstname}" required="">
+                <p class="checkbox">
+                    Agreement
+                    <input type="checkbox" th:field="*{agreement}" align="middle">
+                </p>
+
+
+                <input class="submit" type="submit" value="Sign up" >
+            </form>
+        </div>
+
+        <div class="login">
+            <form name="f" action="login" method="POST">
+                <label for="chk" aria-hidden="true">Login</label>
+                <input type='text' name='username' placeholder="Login" value=''>
+                <input type='password' name='password' placeholder="Password" />
+                <input class="submit" name="submit" type="submit" value="Log in" />
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>
+

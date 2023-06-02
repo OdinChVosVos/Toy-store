@@ -29,7 +29,7 @@ public class BookingJob extends Thread
 
         try {
             tovarService.deBook(idUser);
-            System.out.println("1010101010101010101010");
+            System.out.println("dbckd/correctly");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

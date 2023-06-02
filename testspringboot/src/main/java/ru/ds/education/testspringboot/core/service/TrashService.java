@@ -31,6 +31,18 @@ public class TrashService {
         else throw new TooMuchException();
     }
 
+    public void updateQuantity(Long trashId, int newQuantity){
+        TrashDto tovar = trashMapper.map(trashRepository.getById(trashId), TrashDto.class);
+        if (tovarService.getTovar(tovar.getTovar().getId()).getQuantity_in_stock() >= tovar.getQuantity())
+            trashRepository.updateQuantity(trashId, newQuantity);
+        else throw new TooMuchException();
+
+    }
+
+    public void delete(Long id){
+        trashRepository.delete(id);
+    }
+
     public List<Trash> getByCart(Long cartId){
         return trashRepository.getByCart(cartId);
     }

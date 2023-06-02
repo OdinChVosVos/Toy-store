@@ -22,4 +22,8 @@ public class TrashDto {
     @ApiModelProperty("Корзина")
     private CartsDto cart;
 
+    public TrashDto(TovarDto tovar, int quantity) {
+        this.tovar = tovar;
+        this.quantity = quantity;
+    }
 }

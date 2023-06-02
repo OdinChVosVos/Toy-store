@@ -1,10 +1,13 @@
 package ru.ds.education.testspringboot.core.service;
 
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.ds.education.testspringboot.api.job.ImageUtils;
@@ -19,6 +22,9 @@ import ru.ds.education.testspringboot.db.repository.TovarRepository;
 import ru.ds.education.testspringboot.core.mapper.TovarMapper;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +82,9 @@ public class TovarService {
                 existingTovar.getCost(), existingTovar.getQuantity_in_stock(),
                 existingTovar.getDescription(), ImageUtils.compressImage(file.getBytes()));
         BeanUtils.copyProperties(tovar, existingTovar, "id");
-        tovarRepository.saveAndFlush(existingTovar);
+//        tovarRepository.saveAndFlush(existingTovar);
+        tovarRepository.save(existingTovar);
+        tovarRepository.flush();
     }
 
     public ResponseEntity<byte[]> downloadImg(Long id){
@@ -111,6 +119,17 @@ public class TovarService {
                     elem.getTovar().getId()
             );
             bookedRepository.deleteBooked(elem.getId());
+        }
+
+    }
+
+    public void photos() throws IOException {
+        for (int i = 1; i<10; i++){
+            File file = new File("C:\\Users\\Fedor\\Desktop\\project_in_work\\testspringboot\\src\\main\\resources\\static\\imgs\\goods\\"+i+".png");
+            FileInputStream inputStream = new FileInputStream(file);
+            MultipartFile multipartFile = new MockMultipartFile("file",
+                    file.getName(), "image/png", IOUtils.toByteArray(inputStream));
+            putGood((long) i, multipartFile);
         }
 
     }

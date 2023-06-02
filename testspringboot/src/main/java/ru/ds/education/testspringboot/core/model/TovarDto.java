@@ -31,4 +31,6 @@ public class TovarDto {
     @ApiModelProperty("Картинка товара")
     private byte[] photo;
 
+
+
 }

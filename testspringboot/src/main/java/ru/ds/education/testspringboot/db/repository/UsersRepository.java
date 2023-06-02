@@ -15,13 +15,18 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     @Query(value = "Select n from Users n where n.id_telegram = :id_telegram")
     Users getByTgID(@Param("id_telegram") Long id_telegram);
 
+    @Query(value = "Select n from Users n where n.name = :name")
+    Users getByName(@Param("name") String name);
+
     @Modifying
     @Transactional
-    @Query(value = "Insert into Users VALUES (nextval('users_seq'), :id_telegram, :name, :firstname, :lastname, :phone, :mail, :agreement);",
+    @Query(value = "Insert into Users VALUES (nextval('users_seq'), :id_telegram, :name, :password, :active, :firstname, :lastname, :phone, :mail, :agreement);",
             nativeQuery = true)
     void add(
             @Param("id_telegram") Long id_telegram,
             @Param("name") String name,
+            @Param("password") String password,
+            @Param("active") boolean active,
             @Param("firstname") String firstname,
             @Param("lastname") String lastname,
             @Param("phone") String phone,

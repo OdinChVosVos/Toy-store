@@ -27,6 +27,7 @@ public interface TrashRepository extends JpaRepository<Trash, Long> {
             , nativeQuery = true)
     Long findIdAdded(@Param("id_category") Long id_category);
 
+    @Transactional
     @Query(value = "Select * from Trash where id_cart = :id_cart"
             , nativeQuery = true)
     List<Trash> getByCart(@Param("id_cart") Long id_cart);
@@ -43,6 +44,17 @@ public interface TrashRepository extends JpaRepository<Trash, Long> {
     @Query(value = "DELETE FROM Trash WHERE id_cart = :id_cart", nativeQuery = true)
     void deleteByCart(@Param("id_cart") Long id_cart);
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM Trash WHERE id = :id", nativeQuery = true)
+    void delete(@Param("id") Long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Trash SET quantity = :quantity WHERE id = :id", nativeQuery = true)
+    void updateQuantity(@Param("id") Long id,
+                        @Param("quantity") int quantity);
+
 
     @Modifying
     @Transactional
@@ -51,6 +63,11 @@ public interface TrashRepository extends JpaRepository<Trash, Long> {
             @Param("id_cart") Long id_cart,
             @Param("id_tovar") Long id_tovar
     );
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Trash SET quantity = quantity+1 WHERE id = :id", nativeQuery = true)
+    void addOne(@Param("id") Long id);
 
 
 

@@ -3,6 +3,7 @@ package ru.ds.education.testspringboot.api.controller;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import ru.ds.education.testspringboot.core.model.UsersDto;

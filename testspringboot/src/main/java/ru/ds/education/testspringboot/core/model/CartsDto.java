@@ -16,4 +16,7 @@ public class CartsDto {
     @ApiModelProperty("Покупатель")
     private UsersDto user;
 
+    @ApiModelProperty("Описание")
+    private String description;
+
 }

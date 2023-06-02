@@ -12,6 +12,10 @@
     <script th:src="@{/lib/lightbox/js/lightbox.js}"></script>
     <script th:src="@{/lib/jquery-3.6.1.min.js}"></script>
     <script th:src="@{/lib/jquery.maskedinput.min.js}"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/imgs/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/imgs/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/imgs/icons/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
     <div class = "container-md">
@@ -83,8 +87,12 @@
                 <input type="text" placeholder="IVAN IVANOV" th:field="*{owner}">
             </p>
             <br>
-            <input type="submit" value="Оплатить" />
+            <input type="submit" value="Оплатить"/>
         </form>
+        <form class="redBtn" th:action="'/cancelBuy/'+${tgId}" method="GET">
+            <input type="submit" value="Отменить"/>
+        </form>
+
     </div>
 
 

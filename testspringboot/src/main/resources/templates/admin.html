@@ -12,6 +12,10 @@
     <script th:src="@{/lib/lightbox/js/lightbox.js}"></script>
     <script th:src="@{/lib/jquery-3.6.1.min.js}"></script>
     <script th:src="@{/js/adminJs.js}"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/imgs/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/imgs/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/imgs/icons/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
     <div class = "container-md">
@@ -51,6 +55,10 @@
             <br/>
             <p><b>Логин:</b><br>
                 <input type="text" size="40" th:field="*{name}">
+            </p>
+            <br/>
+            <p><b>Пароль:</b><br>
+                <input type="text" size="40" th:field="*{password}">
             </p>
             <br/>
             <p><b>Телефон:</b><br>

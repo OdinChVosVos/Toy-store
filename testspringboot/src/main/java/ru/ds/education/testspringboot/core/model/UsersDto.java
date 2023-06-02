@@ -19,6 +19,12 @@ public class UsersDto {
     @ApiModelProperty("Логин пользователя")
     private String name;
 
+    @ApiModelProperty("Пароль пользователя")
+    private String password;
+
+    @ApiModelProperty("Активность")
+    private boolean active;
+
     @ApiModelProperty("Имя пользователя")
     private String firstname;
 
