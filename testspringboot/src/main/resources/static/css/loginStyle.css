@@ -7,7 +7,7 @@ body{
     min-height: 100vh;
     font-family: 'Jost', sans-serif;
     /* background: linear-gradient(to bottom, #1b115f, #4129d7); */
-    background: linear-gradient(to bottom, #0f5132, #d6e48d);
+    background: linear-gradient(to bottom, #0f5132 0%, #1c764c 50%, #d6e48d 100%);
 }
 html{
     min-width: 800px;

@@ -57,56 +57,51 @@
     </div>
 
     <div class= "container-md" th:id="${status_cart}">
-        <div class="row">
-            <div class="col-11">
-                <form th:action="'/preBuy/'+${tgId}"
-                      th:object="${quants}" th:method="POST">
-                    <table class="table table-bordered" border="1">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">ТОВАР</th>
-                            <th scope="col">КОЛИЧЕСТВО</th>
-                            <th scope="col">ФОТО</th>
-                            <th scope="col">СТОИМОСТЬ ЕД.</th>
-                            <th scope="col">ИТОГО</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr id="table-row" th:each= "good, goodStat: ${goods}">
-                            <th scope = "row" th:utext = "${goodStat.count}">Empty</th>
-                            <td th:utext = "${good.tovar.name}">Empty</td>
-                            <td>
-                                <input type="text"
-                                       th:name="|list[${goodStat.index}].id|"
-                                       th:value="${good.getId()}" style="display:none;"/>
-                                <input type="number"
-                                       th:name="|list[${goodStat.index}].newQuantity|"
-                                       th:value="${good.getQuantity()}"/>
-                            </td>
-                            <td> <img th:src= "@{${good.tovar.photo}==null? null:'/api/tovar/get/img/'+${good.tovar.id}}"
-                                      height = "100px" data-lightbox="tovar">
-                            </td>
-                            <td th:utext = "${good.tovar.cost}">Empty</td>
-                            <td th:utext = "@{${good.quantity} * ${good.tovar.cost}} + ' руб.'">Empty</td>
-                        </tr>
-                        <tr>
-                            <th scope = "row" colspan="5"><b>ИТОГО:</b></th>
-                            <td th:utext = "${price}+' руб.'">Empty</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <input type = "submit" value = "Заказать"/>
-                </form>
-            </div>
-            <div class="col-1">
-                <div th:each= "good: ${goods}" class="delete">
-                    <form th:action="'/deleteTrash/'+${good.id}" th:method="GET">
-                        <input type = "image" src="/imgs/delete.png"/>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <form th:action="'/preBuy/'+${tgId}"
+              th:object="${quants}" th:method="POST">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ТОВАР</th>
+                    <th scope="col">КОЛИЧЕСТВО</th>
+                    <th scope="col">ФОТО</th>
+                    <th scope="col">СТОИМОСТЬ ЕД.</th>
+                    <th scope="col">ИТОГО</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each= "good, goodStat: ${goods}" style="vertical-align: middle;">
+                    <th scope = "row" th:utext = "${goodStat.count}">Empty</th>
+                    <td th:utext = "${good.tovar.name}">Empty</td>
+                    <td>
+                        <input type="text"
+                               th:name="|list[${goodStat.index}].id|"
+                               th:value="${good.getId()}" style="display:none;"/>
+                        <input type="number"
+                               th:name="|list[${goodStat.index}].newQuantity|"
+                               th:value="${good.getQuantity()}"/>
+                    </td>
+                    <td> <img th:src= "@{${good.tovar.photo}==null? null:'/api/tovar/get/img/'+${good.tovar.id}}"
+                              height = "100px" data-lightbox="tovar">
+                    </td>
+                    <td th:utext = "${good.tovar.cost}">Empty</td>
+                    <td th:utext = "@{${good.quantity} * ${good.tovar.cost}} + ' руб.'">Empty</td>
+                    <td class="delete">
+                        <a th:href="'/deleteTrash/'+${good.id}">
+                            <img src="/imgs/delete.png"/>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope = "row" colspan="5"><b>ИТОГО:</b></th>
+                    <td th:utext = "${price}+' руб.'">Empty</td>
+                </tr>
+                </tbody>
+            </table>
+            <input type = "submit" value = "Заказать"/>
+        </form>
     </div>
 </div>
 

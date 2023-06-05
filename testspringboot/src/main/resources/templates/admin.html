@@ -11,7 +11,7 @@
     <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
     <script th:src="@{/lib/lightbox/js/lightbox.js}"></script>
     <script th:src="@{/lib/jquery-3.6.1.min.js}"></script>
-    <script th:src="@{/js/adminJs.js}"></script>
+    <script th:src="@{/js/deleteJs.js}"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="/imgs/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/imgs/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/imgs/icons/favicon-16x16.png">
@@ -23,95 +23,302 @@
             <h1>ADMIN CONTROL PAGE</h1>
         </center>
     </div>
+    <div class="admin">
+        <div class = "users">
+            <h2 onclick="see('users')" class ="container-fluid">
+                <div class="row">
+                    <div class="col-9">
+                        USER CONTROLLER
+                    </div>
+                    <div class="col-3">
+                        <div class="_img">
+                            <img id="users_img" src="/imgs/close_arrow.png"/>
+                        </div>
+                    </div>
+                </div>
+            </h2>
 
-    <div class = "users">
-        <h2 class ="container-fluid">USER CONTROLLER</h2>
-        <button id="see" onclick="document.getElementById('usr').style.display='block'; document.getElementById('see').style.display='none'; document.getElementById('hide').style.display='block';" style="display:block;">Add User</button>
-        <button id="hide" onclick=" document.getElementById('usr').style.display='none'; document.getElementById('hide').style.display='none'; document.getElementById('see').style.display='block';" style="display:none;">Скрыть</button>
+            <div id="users" class="hiden">
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th class="sort" scope="col"># <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">id <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">id_telegram <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">name <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">password <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">active <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">firstname <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">lastname <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">phone <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">mail <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">agreement <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="sort" scope="col">role <span class="icon-arrow">&UpArrow;</span></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <form th:object="${user_role}" th:id="userRoleForm">
+                            <th scope = "row">~</th>
+                            <td>~</td>
+                            <td>
+                                <input type="number" th:field="*{user.id_telegram}">
+                            </td>
+                            <td>
+                                <input type="text" th:field="*{user.name}">
+                            </td>
+                            <td>
+                                <input type="text" th:field="*{user.password}">
+                            </td>
+                            <td>
+                                <input type="checkbox" checked disabled>
+                            </td>
+                            <td>
+                                <input type="text" th:field="*{user.firstname}">
+                            </td>
+                            <td>
+                                <input type="text" th:field="*{user.lastname}">
+                            </td>
+                            <td>
+                                <input type="text" th:field="*{user.phone}">
+                            </td>
+                            <td>
+                                <input type="email" th:field="*{user.mail}">
+                            </td>
+                            <td>
+                                <input type="checkbox" th:field="*{user.agreement}">
+                            </td>
+                            <td>
+                                <input list="roles" name="name" th:field="*{role.name}">
+                                <datalist id="roles">
+                                    <option th:each="role: ${roles}" th:value="${role.name}"></option>
+                                </datalist>
+                            </td>
+                            <td class="delete">
+                                <a th:onclick="@{'addUser()'}" id="addUser">
+                                    <img src="/imgs/addUser.png"/>
+                                </a>
+                            </td>
+                            <td></td>
+                        </form>
+                    </tr>
+                    <tr th:each= "user_role_, userStat: ${users_roles}" class="common" th:id="@{'users_'+${user_role_.user.id}}">
+                        <form th:object="${user_role}" th:id="@{'user_'+${user_role_.user.id}}">
+                            <th scope = "row" th:utext = "${userStat.count}"></th>
 
-        <table border="1">
-            <tr>
-                <th>tgId</th>
-                <th>firstName</th>
-            </tr>
-            <tr th:each= "user: ${users}">
-                <td th:utext = "${user.id_telegram}">Empty</td>
-                <td th:utext = "${user.firstname}">Empty</td>
-            </tr>
-        </table>
+                            <td th:utext = "${user_role_.user.id}">Empty</td>
+                            <td>
+                                <input type="number" th:value="${user_role_.user.id_telegram}" th:name="|user.id_telegram|">
+                            </td>
+                            <td>
+                                <input type="text" th:value="${user_role_.user.name}" th:name="|user.name|">
+                            </td>
+                            <td>
+                                <input type="text" th:value="${user_role_.user.password}" th:name="|user.password|">
+                            </td>
+                            <td>
+                                <input type="checkbox" th:checked="${user_role_.user.active}" th:name="|user.active|">
+                            </td>
+                            <td>
+                                <input type="text" th:value="${user_role_.user.firstname}" th:name="|user.firstname|">
+                            </td>
+                            <td>
+                                <input type="text" th:value="${user_role_.user.lastname}" th:name="|user.lastname|">
+                            </td>
+                            <td>
+                                <input type="text" th:value="${user_role_.user.phone}" th:name="|user.phone|">
+                            </td>
+                            <td>
+                                <input type="email" th:value="${user_role_.user.mail}" th:name="|user.mail|">
+                            </td>
+                            <td>
+                                <input type="checkbox" th:checked="${user_role_.user.agreement}" th:name="|user.agreement|">
+                            </td>
+                            <td>
+                                <input list="roles_" name="name" th:value="${user_role_.role.name}" th:name="|role.name|">
+                                <datalist id="roles_">
+                                    <option th:each="role: ${roles}" th:value="${role.name}"></option>
+                                </datalist>
+                            </td>
+                            <td class="delete">
+                                <a th:onclick="@{'update(\'updateUser\', \'user_'+${user_role_.user.id}+'\')'}" id="updateUser">
+                                    <img src="/imgs/refresh.png"/>
+                                </a>
+                            </td>
+                            <td class="delete">
+                                <a th:onclick="@{'remove(\'users_\', \'deleteUser\', '+${user_role_.user.id}+', \'deleteUser\')'}" id="deleteUser">
+                                    <img src="/imgs/delete.png"/>
+                                </a>
+                            </td>
+                        </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class = "tovar">
+            <h2 onclick="see('tovar')" class="container-fluid">
+                <div class="row">
+                    <div class="col-9">
+                        TOVAR CONTROLLER
+                    </div>
+                    <div class="col-3">
+                        <div class="_img">
+                            <img id="tovar_img" src="/imgs/close_arrow.png"/>
+                        </div>
+                    </div>
+                </div>
+            </h2>
+            <div id="tovar" class="hiden">
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">id</th>
+                        <th scope="col">name</th>
+                        <th scope="col">cost</th>
+                        <th scope="col">category</th>
+                        <th scope="col">quantity</th>
+                        <th scope="col">description</th>
+                        <th scope="col">photo</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="vertical-align: middle;">
+                            <form th:action="@{/addTovar}" th:object="${tovarAdd}"
+                                  method="POST" enctype="multipart/form-data" id="tovarForm">
+                                <th scope = "row">~</th>
+                                <td>~</td>
+                                <td>
+                                    <input type="text" th:field="*{name}">
+<!--                                    <textarea name="Text1" cols="40" rows="5"></textarea>-->
+                                </td>
+                                <td>
+                                    <input type="number" th:field="*{cost}">
+                                </td>
+                                <td>
+                                    <input list="categories" name="name" th:field="*{categoryName}">
+                                    <datalist id="categories">
+                                        <option th:each="category: ${categories}" th:value="${category.name}"></option>
+                                    </datalist>
+                                </td>
+                                <td>
+                                    <input type="number" th:field="*{quantity}">
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{description}">
+<!--                                    <textarea name="Text1" cols="40" rows="5"></textarea>-->
+                                </td>
+                                <td style="width: 17rem">
+                                    <input style="width: 100%;" type="file" name="file" th:field="*{file}" class="form-control-file">
+                                </td>
+                                <td class="delete">
+                                    <a id="addTovar">
+                                        <img src="/imgs/addUser.png"/>
+                                    </a>
+                                </td>
+                                <td></td>
+                            </form>
+                        </tr>
+                        <tr th:each= "tovar, tovarStat: ${tovars}"
+                            style="vertical-align: middle; height: 10rem;" th:id="@{'tovar_'+${tovar.id}}">
+                            <form th:action="@{'/updateTovar/'+${tovar.id}}" th:object="${tovarAdd}"
+                                  method="POST" enctype="multipart/form-data" th:id="@{'tovarForm_'+${tovar.id}}">
+                                <th scope = "row" th:utext = "${tovarStat.count}"></th>
+
+                                <td th:utext = "${tovar.id}">Empty</td>
+                                <td>
+                                    <input type="text" th:value="${tovar.name}" th:name="|name|">
+                                </td>
+                                <td>
+                                    <input type="number" th:value="${tovar.cost}" th:name="|cost|">
+                                </td>
+                                <td>
+                                    <input list="categories" th:value="${tovar.category.name}" th:name="|categoryName|">
+                                </td>
+                                <td>
+                                    <input type="number" th:value="${tovar.quantity_in_stock}" th:name="|quantity|">
+                                </td>
+                                <td>
+                                    <input type="text" th:value="${tovar.description}" th:name="|description|">
+                                </td>
+                                <td style="width: 17rem;">
+                                    <img style="height: 8rem;" th:src= "@{${tovar.photo}==null? null:'/api/tovar/get/img/'+${tovar.id}}"
+                                                                height = "100px" data-lightbox="tovar">
+                                    <input style="width: 100%;" type="file" th:name="|file|" class="form-control-file">
+                                </td>
+
+                                <td class="delete">
+                                    <a th:onclick="@{'updateTovar(\'tovarForm_'+${tovar.id}+'\')'}">
+                                        <img src="/imgs/refresh.png"/>
+                                    </a>
+                                </td>
+                                <td class="delete">
+                                    <a th:onclick="@{'remove(\'tovar_\', \'deleteTovar\', '+${tovar.id}+', \'deleteTovar\')'}" id="deleteTovar">
+                                        <img src="/imgs/delete.png"/>
+                                    </a>
+                                </td>
+                            </form>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class = "journal">
+            <h2 onclick="see('journal')" class ="container-fluid">
+                <div class="row">
+                    <div class="col-9">
+                        JOURNAL CONTROLLER
+                    </div>
+                    <div class="col-3">
+                        <div class="_img">
+                            <img id="journal_img" src="/imgs/close_arrow.png"/>
+                        </div>
+                    </div>
+                </div>
+            </h2>
+            <div id="journal" class="hiden">
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">id</th>
+                        <th scope="col">name</th>
+                        <th scope="col">datein</th>
+                        <th scope="col">description</th>
+                        <th scope="col" class="load">
+                            <a href="/load">
+                                <img src="/imgs/download.png">
+                            </a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each= "journal, journalStat: ${journals}" th:id="@{'journal_'+${journal.id}}">
+                        <th scope = "row" th:utext = "${journalStat.count}">Empty</th>
+                        <td th:utext = "${journal.id}">Empty</td>
+                        <td th:utext = "${journal.getAll().get(1)}">Empty</td>
+                        <td th:utext = "${journal.datein}">Empty</td>
+                        <td th:utext = "${journal.description}">Empty</td>
+                        <td class="delete">
+                            <a th:onclick="@{'remove(\'journal_\', \'deleteJournal\', '+${journal.id}+', \'deleteJournal\')'}" id="deleteJournal">
+                                <img src="/imgs/delete.png"/>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-
-    <div class = "userController" id = "usr" style="display:none">
-        <form th:action="@{/addUser}"
-              th:object="${user}" method="POST">
-            <p><b>Имя:</b><br>
-                <input type="text" size="40" th:field="*{firstname}">
-            </p>
-            <br/>
-            <p><b>Фамилия:</b><br>
-                <input type="text" size="40" th:field="*{lastname}">
-            </p>
-            <br/>
-            <p><b>Логин:</b><br>
-                <input type="text" size="40" th:field="*{name}">
-            </p>
-            <br/>
-            <p><b>Пароль:</b><br>
-                <input type="text" size="40" th:field="*{password}">
-            </p>
-            <br/>
-            <p><b>Телефон:</b><br>
-                <input type="text" size="40" th:field="*{phone}">
-            </p>
-            <br/>
-            <p><b>Почта:</b><br>
-                <input type="text" size="40" th:field="*{mail}">
-            </p>
-            <br/>
-            <p><b>Соглашение:</b><br>
-                <input type="checkbox" th:field="*{agreement}">
-            </p>
-            <br/>
-            <p><b>Телеграм id:</b><br>
-                <input type="text" size="40" th:field="*{id_telegram}">
-            </p>
-            <br/>
-            <input type="submit" value="Create" />
-        </form>
-    </div>
-
-    <div class = "tovar">
-        <h2 class ="container-fluid">TOVAR CONTROLLER</h2>
-        <table class="table table-dark" border="1">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">id</th>
-                    <th scope="col">name</th>
-                    <th scope="col">cost</th>
-                    <th scope="col">category</th>
-                    <th scope="col">quantity</th>
-                    <th scope="col">description</th>
-                    <th scope="col">photo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each= "tovar, tovarStat: ${tovars}">
-                    <th scope = "row" th:utext = "${tovarStat.count}">Empty</th>
-                    <td th:utext = "${tovar.id}">Empty</td>
-                    <td th:utext = "${tovar.name}">Empty</td>
-                    <td th:utext = "${tovar.cost}">Empty</td>
-                    <td th:utext = "${tovar.category.name}">Empty</td>
-                    <td th:utext = "${tovar.quantity_in_stock}">Empty</td>
-                    <td th:utext = "${tovar.description}">Empty</td>
-                    <td> <img th:src= "@{${tovar.photo}==null? null:'/api/tovar/get/img/'+${tovar.id}}"
-                              height = "100px" data-lightbox="tovar">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
+    <script th:src="@{/js/hideJs.js}"></script>
 </body>
 </html>

@@ -34,4 +34,9 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             @Param("agreement") boolean agreement
     );
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM Users WHERE id = :id", nativeQuery = true)
+    void delete(@Param("id") Long id);
+
 }

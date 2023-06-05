@@ -16,6 +16,7 @@ import ru.ds.education.testspringboot.core.mapper.BookedMapper;
 import ru.ds.education.testspringboot.core.model.BookedDto;
 import ru.ds.education.testspringboot.core.model.TovarDto;
 import ru.ds.education.testspringboot.db.entity.Tovar;
+import ru.ds.education.testspringboot.db.repository.ArchiveTrashRepository;
 import ru.ds.education.testspringboot.db.repository.BookedRepository;
 import ru.ds.education.testspringboot.db.repository.CategoryRepository;
 import ru.ds.education.testspringboot.db.repository.TovarRepository;
@@ -24,9 +25,9 @@ import ru.ds.education.testspringboot.core.mapper.TovarMapper;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -45,6 +46,12 @@ public class TovarService {
     private RemindService remindService;
 
     @Autowired
+    private TrashService trashService;
+
+    @Autowired
+    private ArchiveTrashRepository archiveTrashRepository;
+
+    @Autowired
     private BookedMapper bookedMapper;
 
     @Autowired
@@ -60,13 +67,11 @@ public class TovarService {
                 .description(description)
                 .photo(ImageUtils.compressImage(file.getBytes())).build()
         );
-
         return tovarMapper.map(newTovar, TovarDto.class);
     }
 
     public List<TovarDto> putGoods(List<TovarDto> goods){
         List<TovarDto> newGoods = new ArrayList<>();
-
         for (TovarDto good:goods) {
             Tovar existingTovar = tovarRepository.getById(good.getId());
             BeanUtils.copyProperties(good, existingTovar, NullProperties.getNullPropertyNames(good));
@@ -76,8 +81,13 @@ public class TovarService {
         return newGoods;
     }
 
+    public void updateCategory(Long id, Long categoryId){
+       tovarRepository.updateCategory(id, categoryId);
+    }
+
     public void putGood(Long id, MultipartFile file) throws IOException{
         Tovar existingTovar = tovarRepository.getById(id);
+        if (existingTovar == null) return;
         Tovar tovar = new Tovar(existingTovar.getCategory(), existingTovar.getName(),
                 existingTovar.getCost(), existingTovar.getQuantity_in_stock(),
                 existingTovar.getDescription(), ImageUtils.compressImage(file.getBytes()));
@@ -108,6 +118,17 @@ public class TovarService {
         return tovarMapper.map(tovarRepository.getById(id), TovarDto.class);
     }
 
+    public void delete(Long id){
+        try {
+            archiveTrashRepository.deleteByTovar(id);
+            trashService.deleteByTovar(id);
+            tovarRepository.delete(id);
+        }
+        catch (RuntimeException e){
+            System.out.println(e);
+        }
+
+    }
 
     @Transactional
     public void deBook(Long userId) throws InterruptedException {

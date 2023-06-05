@@ -31,6 +31,13 @@ public class TovarDto {
     @ApiModelProperty("Картинка товара")
     private byte[] photo;
 
-
-
+    public TovarDto(Long id, CategoryDto category, String name, double cost, int quantity_in_stock, String description) {
+        this.id = id;
+        this.category = category;
+        this.name = name;
+        this.cost = cost;
+        this.quantity_in_stock = quantity_in_stock;
+        this.description = description;
+        this.photo = photo;
+    }
 }

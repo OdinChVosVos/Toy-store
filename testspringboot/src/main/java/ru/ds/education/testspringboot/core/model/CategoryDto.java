@@ -19,4 +19,7 @@ public class CategoryDto {
     @ApiModelProperty("Описание товара")
     private String description;
 
+    public CategoryDto(String name) {
+        this.name = name;
+    }
 }

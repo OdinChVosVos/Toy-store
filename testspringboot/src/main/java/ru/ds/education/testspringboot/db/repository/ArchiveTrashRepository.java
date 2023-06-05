@@ -49,6 +49,11 @@ public interface ArchiveTrashRepository extends JpaRepository<ArchiveTrash, Long
 
     @Modifying
     @Transactional
+    @Query(value = "DELETE FROM Archive_Trash WHERE id_tovar = :id_tovar", nativeQuery = true)
+    void deleteByTovar(@Param("id_tovar") Long id_tovar);
+
+    @Modifying
+    @Transactional
     @Query(value = "DELETE FROM Archive_Trash WHERE id_cart = :id_cart", nativeQuery = true)
     void deleteByCart(@Param("id_cart") Long id_cart);
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ds.education.testspringboot.api.job.NullProperties;
 
+import ru.ds.education.testspringboot.core.model.RolesDto;
 import ru.ds.education.testspringboot.core.model.UsersDto;
 
 import ru.ds.education.testspringboot.db.entity.Users;
@@ -50,6 +51,30 @@ public class UsersService {
         usersRolesRepository.add(newUser.getId(), 1L);
 
         return newUser;
+    }
+
+    public UsersDto signUpAdmin(UsersDto user, Long role_id){
+        usersRepository.add(
+                user.getId_telegram(), user.getName(),
+                user.getPassword(), true,
+//                passwordEncoder().encode(user.getPassword()),
+                user.getFirstname(), user.getLastname(),
+                user.getPhone(), user.getMail(), user.isAgreement()
+        );
+        UsersDto newUser = usersMapper.map(usersRepository.getByTgID(user.getId_telegram()), UsersDto.class);
+        usersRolesRepository.add(newUser.getId(), role_id);
+
+        return newUser;
+    }
+
+    public void delete(Long id){
+        try{
+            if (id == 0) return;
+            usersRepository.delete(id);
+        }
+        catch (RuntimeException e){
+            System.out.println(e);
+        }
     }
 
     public UsersDto updateUser(UsersDto user){

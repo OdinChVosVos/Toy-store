@@ -1,11 +1,7 @@
 package ru.ds.education.testspringboot.api.controller;
 
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -24,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class WebController {
@@ -46,6 +45,15 @@ public class WebController {
     @Autowired
     private CartsRepository cartsRepository;
 
+    @Autowired
+    private UsersRolesService usersRolesService;
+
+    @Autowired
+    private RolesService rolesService;
+
+    @Autowired
+    private CategoryService categoryService;
+
 
     @GetMapping("/")
     public String index(){
@@ -54,10 +62,22 @@ public class WebController {
 
     @RequestMapping("/admin")
     public String admin(Model model){
-        model.addAttribute("users", usersService.getAll());
+//        model.addAttribute("users", user.getAll());
+        model.addAttribute("users_roles", usersRolesService.getAll());
+        model.addAttribute("roles", rolesService.getAll());
+        model.addAttribute("user_role", new UsersRolesDto());
         model.addAttribute("user", new UsersDto());
+        model.addAttribute("tovarAdd", new TovarAdding());
+        model.addAttribute("role", new RolesDto());
         model.addAttribute("tovars", tovarService.getAll());
+        model.addAttribute("journals", journalService.getAll());
+        model.addAttribute("categories", categoryService.getAll());
         return "admin";
+    }
+
+    @RequestMapping("/load")
+    public void load(HttpServletResponse response) throws IOException {
+        journalService.load(response);
     }
 
     @GetMapping("/success")
@@ -126,6 +146,84 @@ public class WebController {
         }
     }
 
+    @RequestMapping(value = { "/addTovar" })
+    public String addTovar(@ModelAttribute("tovar") TovarAdding tovar) {
+        try{
+            Long categoryId = categoryService.getByName(tovar.getCategoryName()).getId();
+            tovarService.addTovar(
+                    categoryId,
+                    tovar.getName(),
+                    (int) tovar.getCost(),
+                    tovar.getQuantity(),
+                    tovar.getDescription(),
+                    tovar.getFile()
+            );
+            return "redirect:/admin";
+        }
+        catch (RuntimeException | IOException e){
+            System.out.println(e);
+            return "redirect:/admin";
+        }
+    }
+
+    @RequestMapping(value = { "/updateUser" })
+    public String updateUser(@ModelAttribute("user_role") UsersRolesDto userRole) {
+        try{
+            usersService.updateUser(userRole.getUser());
+            usersRolesService.update(userRole);
+            return "redirect:/admin";
+        }
+        catch (RuntimeException e){
+            System.out.println(e);
+            return "redirect:/admin";
+        }
+    }
+
+    @RequestMapping(value = { "/updateTovar/{id}" })
+    public String updateTovar(@ModelAttribute("tovarAdd") TovarAdding tovar, @PathVariable Long id) {
+        try{
+            List<TovarDto> list = new ArrayList<>();
+            list.add(
+                    new TovarDto(
+                            id,
+                            new CategoryDto(tovar.getCategoryName()),
+                            tovar.getName(),
+                            tovar.getCost(),
+                            tovar.getQuantity(),
+                            tovar.getDescription()
+                    )
+            );
+            tovarService.putGoods(list);
+            if (!tovar.getFile().isEmpty()){
+                tovarService.putGood(id, tovar.getFile());
+            }
+            if (!Objects.equals(tovar.getCategoryName(), "")){
+                tovarService.updateCategory(id, categoryService.getByName(tovar.getCategoryName()).getId());
+            }
+            return "redirect:/admin";
+        }
+        catch (RuntimeException | IOException e) {
+            System.out.println(e);
+            return "redirect:/admin";
+        }
+    }
+
+    @RequestMapping(value = { "/addUserAdmin" }, method = RequestMethod.GET)
+    public String addUserAdmin(@ModelAttribute("user_role") UsersRolesDto userRole) {
+        try{
+            if (Objects.equals(userRole.getRole().getName(), "")){
+                usersService.signUp(userRole.getUser());
+            } else{
+                usersService.signUpAdmin(userRole.getUser(), rolesService.getByName(userRole.getRole().getName()).getId());
+            }
+            return "redirect:/admin";
+        }
+        catch (RuntimeException e){
+            System.out.println(e);
+            return "redirect:/admin";
+        }
+    }
+
     @RequestMapping(value = { "/cancelBuy/{tgId}" }, method = RequestMethod.GET)
     public String cancelBuy(@PathVariable Long tgId) throws InterruptedException {
         tovarService.deBook(usersService.getByTgId(tgId).getId());
@@ -136,6 +234,24 @@ public class WebController {
     public String deleteTrash(@PathVariable Long id) throws InterruptedException {
         trashService.delete(id);
         return "redirect:/cart";
+    }
+
+    @RequestMapping(value = { "/deleteJournal/{id}" }, method = RequestMethod.GET)
+    public String deleteJournal(@PathVariable Long id) throws InterruptedException {
+        journalService.delete(id);
+        return "redirect:/admin";
+    }
+
+    @RequestMapping(value = { "/deleteUser/{id}" }, method = RequestMethod.GET)
+    public String deleteUser(@PathVariable Long id) throws InterruptedException {
+        usersService.delete(id);
+        return "redirect:/admin";
+    }
+
+    @RequestMapping(value = { "/deleteTovar/{id}" }, method = RequestMethod.GET)
+    public String deleteTovar(@PathVariable Long id) throws InterruptedException {
+        tovarService.delete(id);
+        return "redirect:/admin";
     }
 
     @RequestMapping(value = { "/addToCart/{tovarId}" }, method = RequestMethod.POST)

@@ -46,12 +46,24 @@ public interface TovarRepository extends JpaRepository<Tovar, Long> {
 
     @Modifying
     @Transactional
+    @Query(value = "DELETE FROM Tovar WHERE id = :id", nativeQuery = true)
+    void delete(@Param("id") Long id);
+
+    @Modifying
+    @Transactional
     @Query(value = "UPDATE Tovar SET quantity_in_stock = :quantity WHERE id = :id", nativeQuery = true)
     void bookGoods(
             @Param("quantity") int quantity,
             @Param("id") Long id
     );
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Tovar SET id_category = :id_category WHERE id = :id", nativeQuery = true)
+    void updateCategory(
+            @Param("id") Long id,
+            @Param("id_category") Long id_category
+    );
 
 }
 

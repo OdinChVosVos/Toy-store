@@ -26,4 +26,8 @@ public class CategoryService {
         return categoryMapper.mapAsList(categoryRepository.findAll(), CategoryDto.class);
     }
 
+    public CategoryDto getByName(String name){
+        return categoryMapper.map(categoryRepository.getByName(name), CategoryDto.class);
+    }
+
 }

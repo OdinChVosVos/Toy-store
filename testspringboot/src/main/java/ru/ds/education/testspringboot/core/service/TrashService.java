@@ -11,6 +11,7 @@ import ru.ds.education.testspringboot.db.entity.Trash;
 import ru.ds.education.testspringboot.db.repository.TrashRepository;
 
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -31,16 +32,20 @@ public class TrashService {
         else throw new TooMuchException();
     }
 
+    @Transactional
     public void updateQuantity(Long trashId, int newQuantity){
         TrashDto tovar = trashMapper.map(trashRepository.getById(trashId), TrashDto.class);
         if (tovarService.getTovar(tovar.getTovar().getId()).getQuantity_in_stock() >= tovar.getQuantity())
             trashRepository.updateQuantity(trashId, newQuantity);
         else throw new TooMuchException();
-
     }
 
     public void delete(Long id){
         trashRepository.delete(id);
+    }
+
+    public void deleteByTovar(Long id){
+        trashRepository.deleteByTovar(id);
     }
 
     public List<Trash> getByCart(Long cartId){

@@ -10,6 +10,7 @@ import ru.ds.education.testspringboot.db.entity.Journal;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface JournalRepository extends JpaRepository<Journal, Long> {
@@ -24,9 +25,17 @@ public interface JournalRepository extends JpaRepository<Journal, Long> {
             @Param("description") String description
     );
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM Journal WHERE id = :id", nativeQuery = true)
+    void delete(@Param("id") Long id);
+
     @Query(value = "Select * from Journal where user_id = :user_id ORDER BY id DESC Limit 1",
         nativeQuery = true)
     Journal getLast(@Param("user_id") Long user_id);
+
+    @Query(value = "Select * from Journal", nativeQuery = true)
+    List<Journal> getAll();
 
 
 }

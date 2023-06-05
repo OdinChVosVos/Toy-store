@@ -46,6 +46,11 @@ public interface TrashRepository extends JpaRepository<Trash, Long> {
 
     @Modifying
     @Transactional
+    @Query(value = "DELETE FROM Trash WHERE id_tovar = :id_tovar", nativeQuery = true)
+    void deleteByTovar(@Param("id_tovar") Long id_tovar);
+
+    @Modifying
+    @Transactional
     @Query(value = "DELETE FROM Trash WHERE id = :id", nativeQuery = true)
     void delete(@Param("id") Long id);
 

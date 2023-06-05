@@ -1,11 +1,53 @@
 body{
     background:#e2e2e2;
 }
+/* #0f5132 */
 h2{
     margin-top: 1em;
     margin-bottom: 1em;
     background: #0f5132;
     color: #fff;
+    cursor: pointer;
+    padding: 5px;
+}
+.admin input{
+    background-color: transparent;
+    border-block-color: aliceblue;
+    border-width: 0 0 1px;
+    text-align: center;
+    color: aliceblue;
+    width: 7rem;
+}
+thead th{
+    cursor: pointer;
+}
+thead th span{
+    display: inline-block;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 1rem;
+    margin-left: .5rem;
+    border: 1.4px solid transparent;
+    transition: .2s ease-in-out;
+}
+thead th.active_header{
+    color: #fcd462;
+}
+thead th.active_header span{
+    border: 1.4px solid #fcd462;
+    transform: rotate(180deg);
+}
+thead th.active_header.asc span{
+    transform: rotate(360deg);
+}
+._img{
+    text-align: end;
+}
+._img img{
+    height: 30px;
+    vertical-align: inherit;
 }
 html{
     min-width: 800px;
@@ -18,7 +60,11 @@ html{
 .container-md>table{
     width: 40%;
 }
-
+.delete a img{
+    width: 20px;
+    height: auto;
+    cursor: pointer;
+}
 .border-bottom {
     border-bottom: var(--bs-border-width) var(--bs-border-style) #0f5132!important;
 }
@@ -75,7 +121,9 @@ table th, table td {
     padding: 100px 15px 110px 15px;
     position: relative;
 }
-
+.hiden{
+    display: none;
+}
 .pop_up_body input{
     cursor: pointer;
     display: block;
@@ -107,7 +155,10 @@ table th, table td {
     width: 230px;
     color: #0f5132;
 }
-
+.load a img{
+    height: 30px;
+    width: auto;
+}
 .container-md input[type="submit"]{
     cursor: pointer;
     display: block;

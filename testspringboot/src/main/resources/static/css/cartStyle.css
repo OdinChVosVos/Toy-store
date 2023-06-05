@@ -169,9 +169,11 @@ table th, table td {
 .header{
     padding: 10px;
 }
-/* .delete{
-    margin-bottom: 0.5vw;
-} */
+.delete a img{
+    width: 20px;
+    height: auto;
+    cursor: pointer;
+}
 
 .exit{
     width: 70%;
