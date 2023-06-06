@@ -65,6 +65,9 @@ html{
     height: auto;
     cursor: pointer;
 }
+.delete input{
+    width: 2rem;
+}
 .border-bottom {
     border-bottom: var(--bs-border-width) var(--bs-border-style) #0f5132!important;
 }
@@ -200,7 +203,7 @@ table th, table td {
 }
 
 .exit{
-    width: 70%;
+    width: 45%;
     height: auto;
 }
 
@@ -210,7 +213,11 @@ table th, table td {
 }
 
 .cart{
-    width: 20%;
+    width: 45%;
     height: auto;
 }
-
+.adminPanel{
+    width: 45%;
+    height: auto;
+    text-align: right;
+}

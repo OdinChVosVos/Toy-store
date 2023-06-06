@@ -10,8 +10,10 @@ function remove(prefix, command, id, btn){
     })
 }
 
-function addUser(){
-    var str = $("#userRoleForm").serialize();
+$(document).ready(function() {
+    $("#userRoleForm").submit(function(e) {
+      e.preventDefault();
+      var str = $("#userRoleForm").serialize();
     $.ajax({
         data: str,
         url: '/addUserAdmin',
@@ -20,8 +22,14 @@ function addUser(){
        }, error: function(error) {
         alert("error");
        }
-    })
-}
+    });
+      return false;
+    });
+});
+
+// function addUser(){
+//     document.getElementById('userRoleForm').submit();
+// }
 
 
 function update(command, id){

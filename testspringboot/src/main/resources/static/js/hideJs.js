@@ -21,9 +21,9 @@ function see(id){
     }   
 }
 
-document.getElementById("addTovar").onclick = function() {
-    document.getElementById("tovarForm").submit();
-}
+// document.getElementById("addTovar").onclick = function() {
+//     document.getElementById("tovarForm").submit();
+// }
 
 function updateTovar(id){
     document.getElementById(id).submit();

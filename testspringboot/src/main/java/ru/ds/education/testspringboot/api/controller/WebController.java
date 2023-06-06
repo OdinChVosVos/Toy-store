@@ -3,7 +3,9 @@ package ru.ds.education.testspringboot.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import ru.ds.education.testspringboot.db.repository.CartsRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -88,9 +91,14 @@ public class WebController {
     }
 
     @RequestMapping("/failure")
-    public String failure(HttpServletRequest request, HttpServletResponse response) {
+    public String failure(HttpServletRequest request, Model model) {
         journalService.add(request.getParameter("username"), "Неудачная попытка входа");
-        return "redirect:/login";
+
+        model.addAttribute("errorMessage", true);
+        model.addAttribute("user", new UsersDto());
+        model.addAttribute("signUpErr", false);
+        model.addAttribute("signUpSucc", false);
+        return "login";
     }
 
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
@@ -106,12 +114,21 @@ public class WebController {
     public String login(Model model) throws IOException {
         tovarService.photos();
         model.addAttribute("user", new UsersDto());
+        model.addAttribute("errorMessage", false);
+        model.addAttribute("signUpErr", false);
+        model.addAttribute("signUpSucc", false);
         return "login";
     }
 
 
     @RequestMapping("/main")
     public String main(Model model, @ModelAttribute("user") UsersDto user){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = Objects.equals(
+                usersRolesService.getRole(usersService.getByName(auth.getName()).getId()).getRole().getName(),
+                "ROLE_ADMIN"
+        );
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("tovars", tovarService.getAll());
         return "main";
     }
@@ -121,11 +138,17 @@ public class WebController {
     public String cart(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Long idUser = usersService.getByName(auth.getName()).getId();
+        boolean isAdmin = Objects.equals(
+                usersRolesService.getRole(usersService.getByName(auth.getName()).getId()).getRole().getName(),
+                "ROLE_ADMIN"
+        );
 
         if (cartsRepository.getLastId(idUser) == null || cartsService.getAll(auth.getName()).size() == 0){
             model.addAttribute("status_cart","empty");
+            model.addAttribute("isAdmin", isAdmin);
             return "cart";
         }
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("quants", new Quants());
         model.addAttribute("status_cart","not_empty");
         model.addAttribute("goods", cartsService.getAll(auth.getName()));
@@ -134,15 +157,23 @@ public class WebController {
         return "cart";
     }
 
-    @RequestMapping(value = { "/addUser" }, method = RequestMethod.POST)
-    public String addUser(@ModelAttribute("user") UsersDto user) {
+    @RequestMapping(value = { "/addUser" })
+    public String addUser(@ModelAttribute("user") UsersDto user, Model model) {
         try{
             usersService.signUp(user);
-            return "redirect:/login";
+            model.addAttribute("user", new UsersDto());
+            model.addAttribute("errorMessage", false);
+            model.addAttribute("signUpErr", false);
+            model.addAttribute("signUpSucc", true);
+            return "login";
         }
         catch (RuntimeException e){
             System.out.println(e);
-            return "redirect:/login";
+            model.addAttribute("user", new UsersDto());
+            model.addAttribute("errorMessage", false);
+            model.addAttribute("signUpErr", true);
+            model.addAttribute("signUpSucc", false);
+            return "login";
         }
     }
 

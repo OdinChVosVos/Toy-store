@@ -37,6 +37,10 @@ public class UsersRolesService {
         return usersRolesMapper.mapAsList(usersRolesRepository.getAll(), UsersRolesDto.class);
     }
 
+    public UsersRolesDto getRole(Long id){
+        return usersRolesMapper.map(usersRolesRepository.getRole(id), UsersRolesDto.class);
+    }
+
     public void update(UsersRolesDto userRole){
         Long userId = usersRepository.getByName(userRole.getUser().getName()).getId();
         if (Objects.equals(userRole.getRole().getName(), "")){

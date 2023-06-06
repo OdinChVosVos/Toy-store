@@ -35,8 +35,9 @@ public class TrashService {
     @Transactional
     public void updateQuantity(Long trashId, int newQuantity){
         TrashDto tovar = trashMapper.map(trashRepository.getById(trashId), TrashDto.class);
-        if (tovarService.getTovar(tovar.getTovar().getId()).getQuantity_in_stock() >= tovar.getQuantity())
+        if (tovarService.getTovar(tovar.getTovar().getId()).getQuantity_in_stock() >= newQuantity) {
             trashRepository.updateQuantity(trashId, newQuantity);
+        }
         else throw new TooMuchException();
     }
 

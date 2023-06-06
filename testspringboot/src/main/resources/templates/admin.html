@@ -18,6 +18,40 @@
     <link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
+    <div class="container">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between mb-5 border-bottom">
+            <a href="/main">
+                <img class="logo" src="/imgs/logo.png">
+            </a>
+
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="/" class="nav-link px-2 link-secondary">Greeting</a></li>
+                <li><a href="#" class="nav-link px-2 link-dark">Admin Page</a></li>
+            </ul>
+
+            <div class="col-md-3 text-end">
+                <div class="row">
+                    <div class="col-md-4 text-end">
+                        <a href="/admin">
+                            <input class="adminPanel" type="image" src="/imgs/admin.png" alt="Кнопка «admin»">
+                        </a>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <a href="/cart">
+                            <input class="cart" type="image" src="/imgs/cart.png" alt="Кнопка «cart»">
+                        </a>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <form action="/getLogout" method="post">
+                            <input class="exit" type="image" src="/imgs/exit.png" alt="Кнопка «logout»">
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+    </div>
+
     <div class = "container-md">
         <center>
             <h1>ADMIN CONTROL PAGE</h1>
@@ -60,17 +94,17 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <form th:object="${user_role}" th:id="userRoleForm">
+                        <form action="" th:object="${user_role}" th:id="userRoleForm">
                             <th scope = "row">~</th>
                             <td>~</td>
                             <td>
-                                <input type="number" th:field="*{user.id_telegram}">
+                                <input type="number" th:field="*{user.id_telegram}" required>
                             </td>
                             <td>
-                                <input type="text" th:field="*{user.name}">
+                                <input type="text" th:field="*{user.name}" required>
                             </td>
                             <td>
-                                <input type="text" th:field="*{user.password}">
+                                <input type="text" th:field="*{user.password}" required>
                             </td>
                             <td>
                                 <input type="checkbox" checked disabled>
@@ -85,21 +119,22 @@
                                 <input type="text" th:field="*{user.phone}">
                             </td>
                             <td>
-                                <input type="email" th:field="*{user.mail}">
+                                <input type="email" th:field="*{user.mail}" required>
                             </td>
                             <td>
                                 <input type="checkbox" th:field="*{user.agreement}">
                             </td>
                             <td>
-                                <input list="roles" name="name" th:field="*{role.name}">
+                                <input list="roles" name="name" th:field="*{role.name}" required>
                                 <datalist id="roles">
                                     <option th:each="role: ${roles}" th:value="${role.name}"></option>
                                 </datalist>
                             </td>
                             <td class="delete">
-                                <a th:onclick="@{'addUser()'}" id="addUser">
-                                    <img src="/imgs/addUser.png"/>
-                                </a>
+                                <input type="image" class="submit" src="/imgs/addUser.png" >
+<!--                                <a onclick="addUser()" id="addUser">-->
+<!--                                    <img src="/imgs/addUser.png"/>-->
+<!--                                </a>-->
                             </td>
                             <td></td>
                         </form>
@@ -196,32 +231,33 @@
                                 <th scope = "row">~</th>
                                 <td>~</td>
                                 <td>
-                                    <input type="text" th:field="*{name}">
+                                    <input type="text" th:field="*{name}" required>
 <!--                                    <textarea name="Text1" cols="40" rows="5"></textarea>-->
                                 </td>
                                 <td>
-                                    <input type="number" th:field="*{cost}">
+                                    <input type="number" th:field="*{cost}" required>
                                 </td>
                                 <td>
-                                    <input list="categories" name="name" th:field="*{categoryName}">
+                                    <input list="categories" name="name" th:field="*{categoryName}" required>
                                     <datalist id="categories">
                                         <option th:each="category: ${categories}" th:value="${category.name}"></option>
                                     </datalist>
                                 </td>
                                 <td>
-                                    <input type="number" th:field="*{quantity}">
+                                    <input type="number" th:field="*{quantity}" required>
                                 </td>
                                 <td>
                                     <input type="text" th:field="*{description}">
 <!--                                    <textarea name="Text1" cols="40" rows="5"></textarea>-->
                                 </td>
                                 <td style="width: 17rem">
-                                    <input style="width: 100%;" type="file" name="file" th:field="*{file}" class="form-control-file">
+                                    <input style="width: 100%;" type="file" name="file" th:field="*{file}" class="form-control-file" required>
                                 </td>
                                 <td class="delete">
-                                    <a id="addTovar">
-                                        <img src="/imgs/addUser.png"/>
-                                    </a>
+                                    <input type="image" class="submit" src="/imgs/addUser.png" >
+<!--                                    <a id="addTovar">-->
+<!--                                        <img src="/imgs/addUser.png"/>-->
+<!--                                    </a>-->
                                 </td>
                                 <td></td>
                             </form>
@@ -318,6 +354,45 @@
                 </table>
             </div>
         </div>
+
+
+        <div class = "category">
+            <h2 onclick="see('category')" class ="container-fluid">
+                <div class="row">
+                    <div class="col-9">
+                        CATEGORY CONTROLLER
+                    </div>
+                    <div class="col-3">
+                        <div class="_img">
+                            <img id="category_img" src="/imgs/close_arrow.png"/>
+                        </div>
+                    </div>
+                </div>
+            </h2>
+            <div id="category" class="hiden">
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">id</th>
+                        <th scope="col">name</th>
+                        <th scope="col">description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each= "category, categoryStat: ${categories}" th:id="@{'category_'+${category.id}}">
+                        <th scope = "row" th:utext = "${categoryStat.count}">Empty</th>
+                        <td th:utext = "${category.id}">Empty</td>
+                        <td th:utext = "${category.name}">Empty</td>
+                        <td th:utext = "${category.description}">Empty</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
     </div>
     <script th:src="@{/js/hideJs.js}"></script>
 </body>

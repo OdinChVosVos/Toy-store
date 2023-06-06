@@ -30,17 +30,22 @@
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="/" class="nav-link px-2 link-secondary">Greeting</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">Cart Page</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
             <div class="row">
-                <div class="col-md-9 text-end">
+                <div class="col-md-4 text-end">
+                    <a th:style="@{${isAdmin}? '':'display:none;'}" href="/admin">
+                        <input class="adminPanel" type="image" src="/imgs/admin.png" alt="Кнопка «admin»">
+                    </a>
+                </div>
+                <div class="col-md-4 text-end">
                     <a href="/cart">
                         <input class="cart" type="image" src="/imgs/cart.png" alt="Кнопка «cart»">
                     </a>
                 </div>
-                <div class="col-md-3 text-end">
+                <div class="col-md-4 text-end">
                     <form action="/getLogout" method="post">
                         <input class="exit" type="image" src="/imgs/exit.png" alt="Кнопка «logout»">
                     </form>

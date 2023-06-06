@@ -26,6 +26,9 @@ public interface UsersRolesRepository extends JpaRepository<UsersRoles, Long> {
     @Query(value = "Select * from Users_Roles", nativeQuery = true)
     List<UsersRoles> getAll();
 
+    @Query(value = "Select * from Users_Roles where user_id = :user_id", nativeQuery = true)
+    UsersRoles getRole(@Param("user_id") Long user_id);
+
     @Modifying
     @Transactional
     @Query(value = "UPDATE Users_Roles SET role_id = :role_id WHERE user_id = :user_id", nativeQuery = true)

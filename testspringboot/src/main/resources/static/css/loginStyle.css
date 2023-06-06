@@ -14,12 +14,25 @@ html{
 }
 .main{
     width: 400px;
-    background: transparent;
-    backdrop-filter: blur(20px);
+    background: linear-gradient(to bottom, #0f5132 0%, #1c764c 50%, #d6e48d 100%);
+    /* background: transparent; */
+    /* backdrop-filter: blur(20px); */
     height: 650px;
     overflow: hidden;
     border-radius: 10px;
+    position: relative;
+    z-index: 100;
     box-shadow: 5px 20px 50px #000;
+}
+.alert{
+    position: absolute;
+    width: 25rem;
+    top: 11rem;
+    text-align: center;
+    transition: 2s ease-in-out;
+}
+.main:hover ~ .alert{
+    transform:translateY(-120%);
 }
 
 #chk{

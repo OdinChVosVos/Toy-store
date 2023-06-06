@@ -176,7 +176,7 @@ table th, table td {
 }
 
 .exit{
-    width: 70%;
+    width: 60%;
     height: auto;
 }
 
@@ -186,6 +186,11 @@ table th, table td {
 }
 
 .cart{
-    width: 20%;
+    width: 60%;
     height: auto;
+}
+.adminPanel{
+    width: 60%;
+    height: auto;
+    text-align: right;
 }
